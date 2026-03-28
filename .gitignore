@@ -1,0 +1,45 @@
+# ------------------------------
+# Maven / Build
+# ------------------------------
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# ------------------------------
+# Spring Boot / JPA
+# ------------------------------
+spring-boot-devtools.properties
+*.log
+
+# ------------------------------
+# Application properties / secrets
+# ------------------------------
+src/main/resources/application.properties
+
+# ------------------------------
+# IDEs
+# ------------------------------
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# ------------------------------
+# macOS / OS files
+# ------------------------------
+.DS_Store
+Thumbs.db
+
+# ------------------------------
+# Others
+# ------------------------------
+*.tmp
+*.bak
