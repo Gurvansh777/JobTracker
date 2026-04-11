@@ -1,10 +1,9 @@
 package com.gurvansh.jobtracker.controller;
 
-import com.gurvansh.jobtracker.entity.User;
-import com.gurvansh.jobtracker.repository.UserRepository;
+import com.gurvansh.jobtracker.service.AuthService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -13,12 +12,10 @@ import java.util.Map;
 @RequestMapping("/auth")
 public class AuthController {
 
-  private final UserRepository userRepository;
-  private final PasswordEncoder passwordEncoder;
+  private AuthService authService;
 
-  public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-    this.userRepository = userRepository;
-    this.passwordEncoder = passwordEncoder;
+  public AuthController(AuthService authService) {
+    this.authService = authService;
   }
 
   @PostMapping("/login")
@@ -26,14 +23,10 @@ public class AuthController {
     String email = body.get("email");
     String password = body.get("password");
 
-    User user = userRepository.findByEmail(email).orElse(null);
-
-    if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
-      // Return 401 Unauthorized on failed login
+    if (!authService.checkUser(email, password)) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
     }
-
     // Login successful
-    return ResponseEntity.ok(Map.of("message", "Login successful", "email", user.getEmail()));
+    return ResponseEntity.ok(Map.of("message", "Login successful", "email", email));
   }
 }

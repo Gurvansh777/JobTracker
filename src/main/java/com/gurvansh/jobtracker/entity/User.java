@@ -8,24 +8,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class User {
 
   @Id
   @GeneratedValue
   private UUID id;
+
+  @Column(nullable = false, unique = true)
+  private String email;
+
+  @Column(nullable = false)
+  private String password;
+
+  @Column(nullable = false)
+  private Boolean enabled = true;
+
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private LocalDateTime createdAt = LocalDateTime.now();
 
   public UUID getId() {
     return id;
@@ -66,16 +68,4 @@ public class User {
   public void setCreatedAt(LocalDateTime createdAt) {
     this.createdAt = createdAt;
   }
-
-  @Column(nullable = false, unique = true)
-  private String email;
-
-  @Column(nullable = false)
-  private String password;
-
-  @Column(nullable = false)
-  private Boolean enabled = true;
-
-  @Column(name = "created_at", nullable = false, updatable = false)
-  private LocalDateTime createdAt = LocalDateTime.now();
 }
