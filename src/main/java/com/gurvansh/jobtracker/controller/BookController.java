@@ -1,8 +1,11 @@
 package com.gurvansh.jobtracker.controller;
 
 import com.gurvansh.jobtracker.dto.BookDto;
+import com.gurvansh.jobtracker.entity.Book;
 import com.gurvansh.jobtracker.service.BookService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,5 +24,11 @@ public class BookController {
   public List<BookDto> getBooks() {
     bookService.saveBooks();
     return bookService.getAllBooks();
+  }
+
+  @GetMapping("/books/{bookId}")
+  public ResponseEntity<?> getBookById(@PathVariable long bookId) {
+    return ResponseEntity.ok(bookService.getBookById(bookId).
+            orElseThrow(() -> new RuntimeException("Book Not Found!")));
   }
 }

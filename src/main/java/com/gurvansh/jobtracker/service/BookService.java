@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -33,6 +34,10 @@ public class BookService {
             book ->
                     new BookDto(book.getBookId(), book.getBookName())
     ).toList();
+  }
+
+  public Optional<Book> getBookById(long id) {
+    return bookRepository.findById(id);
   }
 
 }
